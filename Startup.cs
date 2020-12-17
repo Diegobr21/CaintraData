@@ -57,14 +57,15 @@ namespace CaintraData
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseHttpsRedirection(); //new 
+            app.UseRouting();
 
             app.UseStaticFiles();
 
-            app.UseRouting();
+            
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
