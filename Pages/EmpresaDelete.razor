@@ -1,0 +1,77 @@
+﻿@page "/empresadelete/{id:int}"
+@inject IEmpresaService EmpresaService
+@inject NavigationManager NavigationManager
+
+<h1>Borrar Empresa</h1>
+<p style="color:red; text-align:center;"> ¿Estas seguro de querer eliminar a esta empresa? </p>
+
+<EditForm Model="@empresa">
+    <table class="table">
+        <tr>
+            <td>Razón Social: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.RazonSocial" /></td>
+        </tr>
+        <tr>
+            <td>Nombre Comercial: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.NombreComercial" /></td>
+        </tr>
+        <tr>
+            <td>Dirección: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.Direccion" /></td>
+        </tr>
+        <tr>
+            <td>Municipio y Estado: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.Municipio_Estado" /></td>
+        </tr>
+        <tr>
+            <td>Sitio Web: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.SitioWeb" /></td>
+        </tr>
+        <tr>
+            <td>Número de Socio: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.NumSocio" /></td>
+        </tr>
+        <tr>
+            <td>Tamaño: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="empresa.Empresa_Size" /></td>
+        </tr>
+        <tr>
+            <td>Membresía vigente: </td>
+            <td><input class="form-control col-sm-4" type="checkbox" @bind="empresa.MembresiaVigente" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="submit" value="Borrar" @onclick="DeleteEmpresa" />
+                <input type="button" value="Cancelar" @onclick="Cancel" />
+            </td>
+        </tr>
+    </table>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Empresa empresa = new Empresa();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            empresa = await EmpresaService.GetEmpresaDetails(id);
+
+
+        }
+    }
+
+    protected async Task DeleteEmpresa()
+    {
+        await EmpresaService.DeleteEmpresa(id);
+        NavigationManager.NavigateTo("/empresas");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/empresas");
+    }
+}

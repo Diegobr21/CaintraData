@@ -1,0 +1,131 @@
+﻿@page "/empresas"
+@inject IEmpresaService EmpresaService
+@inject NavigationManager NavigationManager
+@inject CSVService csvservice
+
+<h1>Empresas Tabla</h1>
+
+<p> Aquí tenemos todos las empresas</p>
+@Message
+
+
+@if (empresas == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <RadzenButton Text="Agregar Empresa" Icon="card_travel" Click="@(args => AddEmpresa())" Style="margin-bottom:20px" />
+    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                AllowSorting="true" Data="empresas" TItem="Empresa" ColumnWidth="150px">
+        <Columns>
+            <RadzenGridColumn TItem="Empresa" Property="RazonSocial" Title="Razón Social"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="NombreComercial" Title="Nombre Comercial"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="Direccion" Title="Dirección"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="Municipio_Estado" Title="Municipio/Estado"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="SitioWeb" Title="Sitio Web"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="LastUpdate" Title="Última Actualización"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="NumSocio" Title="Núm. Socio"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="Empresa_Size" Title="Tamaño"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="MembresiaVigente" Title="Membresía Vigente"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="Usuarios" Title="Cant. Usuarios"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="empresa">
+                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(empresa))">
+                    </RadzenButton>
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Title="Borrar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="empresa">
+                    <RadzenButton Icon="delete" Size="ButtonSize.Small" Click="@(args => OnDeleteRow(empresa))">
+                    </RadzenButton>
+                </Template>
+            </RadzenGridColumn>
+
+        </Columns>
+    </RadzenGrid>
+    <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" />
+    <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
+    <!--
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>Razón Social</th>
+                <th>Nombre Comercial</th>
+                <th>Dirección</th>
+                <th>Municipio/Estado</th>
+                <th>Sitio Web</th>
+                <th>Última Actualización</th>
+                <th># Socio</th>
+                <th>Tamaño</th>
+                <th>Membresía Vigente</th>
+                <th>Cant. Usuarios</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in empresas)
+            {
+                <tr>
+                    <td>@e.RazonSocial</td>
+                    <td>@e.NombreComercial</td>
+                    <td>@e.Direccion</td>
+                    <td>@e.Municipio_Estado</td>
+                    <td>@e.SitioWeb</td>
+                    <td>@e.LastUpdate</td>
+                    <td>@e.NumSocio</td>
+                    <td>@e.Empresa_Size</td>
+                    <td>@e.MembresiaVigente</td>
+                    <td>@e.Usuarios</td>
+                    <td><a href="empresadetails/@e.Id"><i>Editar</i></a></td>
+                    <td><a href="empresadelete/@e.Id"><i>Borrar</i></a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    -->
+}
+
+@code {
+
+    public IEnumerable<Empresa> empresas { get; set; }
+    public string Message { get; set; }
+    RadzenGrid<Empresa> grid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            empresas = await EmpresaService.GetAllEmpresas();
+        }
+        catch (Exception e)
+        {
+            Message = e.Message;
+        }
+
+    }
+    protected void Export(string type)
+    {
+        csvservice.Export2("Empresas", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
+    }
+
+    protected void OnUpdateRow(Empresa empresa)
+    {
+        int id = empresa.Id;
+        string link = "/empresadetails/" + id;
+        NavigationManager.NavigateTo(link);
+    }
+    protected void OnDeleteRow(Empresa empresa)
+    {
+        int id = empresa.Id;
+        string link = "/empresadelete/" + id;
+        NavigationManager.NavigateTo(link);
+    }
+    protected void AddEmpresa()
+    {
+        NavigationManager.NavigateTo("/empresadetails");
+    }
+
+}

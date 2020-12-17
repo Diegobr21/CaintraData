@@ -1,0 +1,81 @@
+﻿@page "/userdelete/{id:int}"
+@inject IUsersService UsersService
+@inject NavigationManager NavigationManager
+
+<h1>Borrar Usuario</h1>
+<p style="color:red; text-align:center;"> ¿Estas seguro de querer eliminar a este usuario? </p>
+
+<EditForm Model="@user">
+    <table class="table">
+        <tr>
+            <td>Nombre: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Nombre" /></td>
+        </tr>
+        <tr>
+            <td>Municipio y Estado: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Municipio_Estado" /></td>
+        </tr>
+        <tr>
+            <td>Teléfono: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Telefono" /></td>
+        </tr>
+        <tr>
+            <td>Correo: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Correo" /></td>
+        </tr>
+        <tr>
+            <td>Whatsapp: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Whatsapp" /></td>
+        </tr>
+        <tr>
+            <td>Facebook: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Facebook" /></td>
+        </tr>
+        <tr>
+            <td>Linkedin: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Linkedin" /></td>
+        </tr>
+        <tr>
+            <td>Twitter: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Twitter" /></td>
+        </tr>
+        <tr>
+            <td>Instagram: </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Instagram" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="submit" value="Borrar" @onclick="DeleteUsuario" />
+                <input type="button" value="Cancelar" @onclick="Cancel" />
+            </td>
+        </tr>
+    </table>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Usuario user = new Usuario();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            user = await UsersService.GetUsuarioDetails(id);
+
+
+        }
+    }
+
+    protected async Task DeleteUsuario()
+    {
+        await UsersService.DeleteUsuario(id);
+        NavigationManager.NavigateTo("/");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
