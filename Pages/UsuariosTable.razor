@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IUsersService UsersService
 @inject NavigationManager NavigationManager
+@inject CSVService csvservice
 
 <h1>Usuarios Tabla</h1>
 
@@ -15,7 +16,7 @@
 else
 {
     <RadzenButton Text="Agregar Usuario" Icon="account_circle" Click="@(args => AddUsuario())" Style="margin-bottom:20px" />
-    <RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
                 AllowSorting="true" Data="usuarios" TItem="Usuario" ColumnWidth="150px">
         <Columns>
             <RadzenGridColumn TItem="Usuario" Property="Nombre" Title="Nombre de Usuario"></RadzenGridColumn>
@@ -97,6 +98,7 @@ else
 
     public IEnumerable<Usuario> usuarios { get; set; }
     public string Message { get; set; }
+    RadzenGrid<Usuario> grid;
 
     protected override async Task OnInitializedAsync()
     {
@@ -111,9 +113,9 @@ else
 
     }
 
-    protected void Export(string filetype)
+    protected void Export(string type)
     {
-        string type = filetype;
+        csvservice.Export2("Usuarios", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
     }
 
     protected void OnUpdateRow(Usuario usuario)
