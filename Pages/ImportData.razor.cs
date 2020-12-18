@@ -21,7 +21,7 @@ namespace CaintraData.Pages
         private EmpresaService empresaService { get; set; }
         private IFileListEntry FileEntry { get; set; }
 
-        private void OnFileUploaded(IFileListEntry[] files)
+        public void OnFileUploaded(IFileListEntry[] files)
         {
             FileEntry = files.FirstOrDefault();
         }
