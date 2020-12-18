@@ -9,16 +9,21 @@ using CsvHelper;
 using Microsoft.AspNetCore.Components;
 using CaintraData.Data;
 using CaintraData.Models;
+using Microsoft.VisualBasic;
+
 
 namespace CaintraData.Pages
 {
     public partial class ImportData
     {
         [Inject]
-        private UsersService usersService { get; set; }
+        private IUsersService UsersService { get; set; }
 
         [Inject]
-        private EmpresaService empresaService { get; set; }
+        private IEmpresaService EmpresaService { get; set; }
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
         private IFileListEntry FileEntry { get; set; }
 
         public void OnFileUploaded(IFileListEntry[] files)
@@ -32,8 +37,9 @@ namespace CaintraData.Pages
         /// </summary>
         private async Task UploadFileContentsAsync()
         {
-            var usuarios = await usersService.GetAllUsuarios();
-            var empresas = await empresaService.GetAllEmpresas();
+            
+            var usuarios = await UsersService.GetAllUsuarios();
+            var empresas = await EmpresaService.GetAllEmpresas();
 
             using var reader = new StreamReader(FileEntry.Data);
             using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -42,49 +48,49 @@ namespace CaintraData.Pages
             csvReader.ReadHeader();
             while (await csvReader.ReadAsync())
             {
-                /*
-                var companyName = csvReader.GetField("Product Brand").ToLower();
+                
+                var empresaName = csvReader.GetField("Empresa").ToLower();
                 // make upper case the first letter of the string
-                companyName = char.ToUpper(companyName[0]) + companyName.Substring(1);
-                var company = companies.FirstOrDefault(c => c.Name == companyName);
+                empresaName = char.ToUpper(empresaName[0]) + empresaName.Substring(1);
+
+                var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
                 // if the company is not in the database
-                if (company is null)
+                if (empresa is null)
                 {
-                    company = new Company
+                    empresa = new Empresa
                     {
-                        Name = companyName
+                        RazonSocial = empresaName
                     };
                     // add it
-                    await UploadDataContext.InsertCompanyAsync(company);
-                    companies.Add(company);
+                    await EmpresaService.InsertEmpresa(empresa); 
+                    
                 }
 
-    */
                 // get category tag (id)
-                var tag = csvReader.GetField<int>("Tag");
-               
-               
-
-                var model = csvReader.GetField("Product Model").Split(' ');
-                // first 3 words will be the name
-                var name = string.Join(" ", model.Take(3));
-                // the rest of the words will be the description
-                var description = string.Join(" ", model.Skip(3));
-
-                var imagePath = csvReader.GetField("ProductImg");
+                var nombre = csvReader.GetField("Nombre Usuario");
                 var mun_estado = "";
+                var telefono = csvReader.GetField("Telefono");
+                var correo = csvReader.GetField("Correo");
+
+                
                 var empresaId = new Empresa();
 
                 var usuario = new Usuario
                 {
-                    Nombre = name,
-                    Correo = description,
-                    Telefono = imagePath,
+                    Nombre = nombre,
                     Municipio_Estado = mun_estado,
-                    Empresa = empresaId
+                    Telefono = telefono,
+                    Correo = correo,
+                    Empresa = empresaId,
+                    LastUpdate_Mail = DateAndTime.Now,
+                    LastUpdate_Phone = DateAndTime.Now
+
+
                 };
-                await usersService.InsertUsuario(usuario);
+                await UsersService.InsertUsuario(usuario);
             }
+
+            NavigationManager.NavigateTo("/");
         }
 
         
