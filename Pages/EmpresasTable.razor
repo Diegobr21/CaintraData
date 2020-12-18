@@ -16,7 +16,7 @@
 else
 {
     <RadzenButton Text="Agregar Empresa" Icon="card_travel" Click="@(args => AddEmpresa())" Style="margin-bottom:20px" />
-    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="50"
                 AllowSorting="true" Data="empresas" TItem="Empresa" ColumnWidth="150px">
         <Columns>
             <RadzenGridColumn TItem="Empresa" Property="RazonSocial" Title="Razón Social"></RadzenGridColumn>
