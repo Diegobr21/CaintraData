@@ -3,30 +3,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CaintraData.Migrations
 {
-    public partial class InitialTest : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                           name: "Empresa",
-                           columns: table => new
-                           {
-                               Id = table.Column<int>(nullable: false)
-                                   .Annotation("SqlServer:Identity", "1, 1"),
-                               RazonSocial = table.Column<string>(nullable: true),
-                               NombreComercial = table.Column<string>(nullable: true),
-                               Direccion = table.Column<string>(nullable: true),
-                               Municipio_Estado = table.Column<string>(nullable: true),
-                               SitioWeb = table.Column<string>(nullable: true),
-                               LastUpdate = table.Column<DateTime>(nullable: false),
-                               NumSocio = table.Column<string>(nullable: true),
-                               Empresa_Size = table.Column<string>(nullable: true),
-                               MembresiaVigente = table.Column<bool>(nullable: false)
-                           },
-                           constraints: table =>
-                           {
-                               table.PrimaryKey("PK_Empresa", x => x.Id);
-                           });
+                name: "EmpresasTable",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RazonSocial = table.Column<string>(nullable: true),
+                    NombreComercial = table.Column<string>(nullable: true),
+                    Direccion = table.Column<string>(nullable: true),
+                    Municipio_Estado = table.Column<string>(nullable: true),
+                    SitioWeb = table.Column<string>(nullable: true),
+                    LastUpdate = table.Column<DateTime>(nullable: false),
+                    NumSocio = table.Column<string>(nullable: true),
+                    Empresa_Size = table.Column<string>(nullable: true),
+                    MembresiaVigente = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmpresasTable", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "UsuariosTable",
@@ -40,7 +40,8 @@ namespace CaintraData.Migrations
                     Correo = table.Column<string>(nullable: true),
                     LastUpdate_Phone = table.Column<DateTime>(nullable: false),
                     LastUpdate_Mail = table.Column<DateTime>(nullable: false),
-                    EmpresaId = table.Column<int>(nullable: true),
+                    EmpresaId = table.Column<int>(nullable: false),
+                    RazonEmpresa = table.Column<string>(nullable: true),
                     Whatsapp = table.Column<string>(nullable: true),
                     Facebook = table.Column<string>(nullable: true),
                     Linkedin = table.Column<string>(nullable: true),
@@ -51,11 +52,11 @@ namespace CaintraData.Migrations
                 {
                     table.PrimaryKey("PK_UsuariosTable", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UsuariosTable_Empresa_EmpresaId",
+                        name: "FK_UsuariosTable_EmpresasTable_EmpresaId",
                         column: x => x.EmpresaId,
-                        principalTable: "Empresa",
+                        principalTable: "EmpresasTable",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -70,7 +71,7 @@ namespace CaintraData.Migrations
                 name: "UsuariosTable");
 
             migrationBuilder.DropTable(
-                name: "Empresa");
+                name: "EmpresasTable");
         }
     }
 }

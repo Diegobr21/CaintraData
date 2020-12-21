@@ -53,18 +53,32 @@ namespace CaintraData.Pages
                 // make upper case the first letter of the string
                 empresaName = char.ToUpper(empresaName[0]) + empresaName.Substring(1);
 
-                var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
+                int empresaId = 0;
+
+              var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
                 // if the company is not in the database
-                if (empresa is null)
+                
+                if (empresa is null && !empresa.Equals(" "))
                 {
+                    
                     empresa = new Empresa
                     {
-                        RazonSocial = empresaName
+                        RazonSocial = empresaName,
+                        LastUpdate = DateAndTime.Now
+
+                        
                     };
                     // add it
-                    await EmpresaService.InsertEmpresa(empresa); 
-                    
+                    await EmpresaService.InsertEmpresa(empresa);
+                    empresaId = empresa.Id;
+
                 }
+                else
+                {
+                    empresaId = empresa.Id;
+                }
+                
+
 
                 // get category tag (id)
                 var nombre = csvReader.GetField("Nombre Usuario");
@@ -73,7 +87,7 @@ namespace CaintraData.Pages
                 var correo = csvReader.GetField("Correo");
 
                 
-                var empresaId = new Empresa();
+                
 
                 var usuario = new Usuario
                 {
@@ -81,9 +95,10 @@ namespace CaintraData.Pages
                     Municipio_Estado = mun_estado,
                     Telefono = telefono,
                     Correo = correo,
-                    Empresa = empresaId,
                     LastUpdate_Mail = DateAndTime.Now,
-                    LastUpdate_Phone = DateAndTime.Now
+                    LastUpdate_Phone = DateAndTime.Now,
+                    EmpresaId = empresaId,
+                    RazonEmpresa = empresaName
 
 
                 };

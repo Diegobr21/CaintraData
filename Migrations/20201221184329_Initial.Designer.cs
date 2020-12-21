@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaintraData.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20201218211209_InitialTest")]
-    partial class InitialTest
+    [Migration("20201221184329_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,7 +57,7 @@ namespace CaintraData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Empresa");
+                    b.ToTable("EmpresasTable");
                 });
 
             modelBuilder.Entity("CaintraData.Models.Usuario", b =>
@@ -70,7 +70,7 @@ namespace CaintraData.Migrations
                     b.Property<string>("Correo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EmpresaId")
+                    b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Facebook")
@@ -94,6 +94,9 @@ namespace CaintraData.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RazonEmpresa")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
@@ -112,9 +115,11 @@ namespace CaintraData.Migrations
 
             modelBuilder.Entity("CaintraData.Models.Usuario", b =>
                 {
-                    b.HasOne("CaintraData.Models.Empresa", "Empresa")
+                    b.HasOne("CaintraData.Models.Empresa", null)
                         .WithMany("Usuarios")
-                        .HasForeignKey("EmpresaId");
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

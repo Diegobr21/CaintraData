@@ -1,0 +1,25 @@
+﻿@page "/selectimport"
+@inject NavigationManager navmanager
+<h3>Selecciona Tipo de Datos </h3>
+
+<RadzenButton Click=@(args => OnClick("usuarios")) Text="Usuarios" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
+<hr />
+<RadzenButton Click=@(args => OnClick("empresas")) Text="Empresas" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
+
+@code {
+
+    protected void OnClick(string type)
+    {
+        if (type.Equals("usuarios"))
+        {
+            navmanager.NavigateTo("/importdatausu");
+        }
+        else if (type.Equals("empresas"))
+        {
+            navmanager.NavigateTo("/importdataempresas");
+        }
+
+    }
+
+
+}

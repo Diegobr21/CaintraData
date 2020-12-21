@@ -17,26 +17,26 @@ namespace CaintraData.Data
 
         public async Task<bool> DeleteEmpresa(int id)
         {
-            var empresa = await _context.Empresa.FindAsync(id);
+            var empresa = await _context.EmpresasTable.FindAsync(id);
 
-            _context.Empresa.Remove(empresa);
+            _context.EmpresasTable.Remove(empresa);
 
             return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<Empresa>> GetAllEmpresas()
         {
-            return await _context.Empresa.ToListAsync();
+            return await _context.EmpresasTable.ToListAsync();
         }
 
         public async Task<Empresa> GetEmpresaDetails(int id)
         {
-            return await _context.Empresa.FindAsync(id);
+            return await _context.EmpresasTable.FindAsync(id);
         }
 
         public async Task<bool> InsertEmpresa(Empresa empresa)
         {
-            _context.Empresa.Add(empresa);
+            _context.EmpresasTable.Add(empresa);
 
             return await _context.SaveChangesAsync() > 0;
         }

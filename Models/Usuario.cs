@@ -43,9 +43,14 @@ namespace CaintraData.Models
         public DateTime LastUpdate_Mail { get; set; }
 
         /// <summary>
-        /// Empresa a la que está ligada el usuario si es que está ligada.
+        /// Id de la Empresa a la que está ligada el usuario si es que está ligada. Llave foranea
         /// </summary>
-        public virtual Empresa Empresa { get; set; }
+        public int  EmpresaId { get; set; }
+
+        ///<summary>
+        /// Razón social de la empresa a la que está ligada el usuario
+        /// </summary>
+        public string RazonEmpresa { get; set; }
 
         /// <summary>
         /// Whatsapp del usuario.

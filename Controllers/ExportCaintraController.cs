@@ -22,13 +22,13 @@ namespace CaintraData.Controllers
         [HttpGet("/export/CAINTRA/Empresas/csv")]
         public FileStreamResult ExportEmpresasToCSV()
         {
-            return ToCSV(ApplyQuery(context.Empresa, Request.Query));
+            return ToCSV(ApplyQuery(context.EmpresasTable, Request.Query));
         }
 
         [HttpGet("/export/CAINTRA/Empresas/excel")]
         public FileStreamResult ExportEmpresasToExcel()
         {
-            return ToExcel(ApplyQuery(context.Empresa, Request.Query));
+            return ToExcel(ApplyQuery(context.EmpresasTable, Request.Query));
         }
         [HttpGet("/export/CAINTRA/Usuarios/csv")]
         public FileStreamResult ExportUsuariosToCSV()
