@@ -1,10 +1,42 @@
 ﻿@page "/selectimport"
 @inject NavigationManager navmanager
-<h3>Selecciona Tipo de Datos </h3>
+<h1>Selecciona Tipo de Datos </h1>
 
+<hr />
+<h3> Archivo Usuarios </h3>
+<p> Ingresa un archivo .csv con el encabezado: </p>
+<table class="table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre Usuario</th>
+            <th>Municipio/Estado</th>
+            <th>Telefono</th>
+            <th>Correo</th>
+            <th>Empresa </th>
+        </tr>
+    </thead>
+</table>
+<br />
 <RadzenButton Click=@(args => OnClick("usuarios")) Text="Usuarios" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
 <hr />
-<RadzenButton Click=@(args => OnClick("empresas")) Text="Empresas" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
+<h3> Archivo Empresas </h3>
+<p> Ingresa un archivo .csv con el encabezado: </p>
+<table class="table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre Comercial</th>
+            <th>Razon Social</th>
+            <th>Direccion</th>
+            <th>Municipio/Estado</th>
+            <th>Sitio Web</th>
+            <th>Num Socio</th>
+            <th>Size</th>
+            <th>Vigente</th>
+        </tr>
+    </thead>
+</table>
+<br />
+<RadzenButton Click=@(args => OnClick("empresas")) Text="Empresas" Icon="card_travel" Style="margin-bottom: 80px; width: 200px" />
 
 @code {
 

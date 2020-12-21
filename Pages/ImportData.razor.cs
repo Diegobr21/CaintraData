@@ -58,19 +58,20 @@ namespace CaintraData.Pages
               var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
                 // if the company is not in the database
                 
-                if (empresa is null && !empresa.Equals(" "))
+                if (empresa is null)
                 {
-                    
-                    empresa = new Empresa
-                    {
-                        RazonSocial = empresaName,
-                        LastUpdate = DateAndTime.Now
+                        empresa = new Empresa
+                        {
+                            RazonSocial = empresaName,
+                            LastUpdate = DateAndTime.Now
 
-                        
-                    };
-                    // add it
-                    await EmpresaService.InsertEmpresa(empresa);
-                    empresaId = empresa.Id;
+
+                        };
+                        // add it
+                        await EmpresaService.InsertEmpresa(empresa);
+                        empresaId = empresa.Id;
+
+  
 
                 }
                 else
