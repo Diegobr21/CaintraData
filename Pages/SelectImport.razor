@@ -17,7 +17,7 @@
     </thead>
 </table>
 <br />
-<RadzenButton @ref="btn1" Click=@(args => OnClick("usuarios")) Disabled="true" Text="Usuarios" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
+<RadzenButton @ref="btn1" Click=@(args => OnClick("usuarios")) Text="Usuarios" Icon="account_circle" Style="margin-bottom: 80px; width: 200px" />
 <hr />
 <h3> Archivo Empresas </h3>
 <p> Ingresa un archivo .csv con el encabezado: </p>
@@ -36,19 +36,15 @@
     </thead>
 </table>
 <br />
-<RadzenButton @ref="btn2" Click=@(args => OnClick("empresas")) Disabled="true" Text="Empresas" Icon="card_travel" Style="margin-bottom: 80px; width: 200px" />
+<RadzenButton @ref="btn2" Click=@(args => OnClick("empresas")) Text="Empresas" Icon="card_travel" Style="margin-bottom: 80px; width: 200px" />
 
-<h3>Activar funcionalidad </h3>
-<label> Contraseña: </label>
-<input @bind-value="pssd" type="password" />
-<button  @onclick="@CheckPssd">Checar contraseña </button>
 
 @code {
 
 
     RadzenButton btn1;
     RadzenButton btn2;
-    private string pssd { get; set; }
+    
 
     protected void OnClick(string type)
     {
@@ -63,15 +59,6 @@
 
     }
 
-    protected void CheckPssd()
-    {
-        if (pssd.Equals("123"))
-        {
-            btn1.Disabled = false;
-            btn2.Disabled = false;
-        }
-
-
-    }
+    
 
 }
