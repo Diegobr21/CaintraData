@@ -25,6 +25,7 @@ namespace CaintraData.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         private IFileListEntry FileEntry { get; set; }
+        private string message = "";
 
         public void OnFileUploaded(IFileListEntry[] files)
         {
@@ -37,7 +38,7 @@ namespace CaintraData.Pages
         /// </summary>
         private async Task UploadFileContentsAsync()
         {
-            
+            message = "Cargando datos...";
             var usuarios = await UsersService.GetAllUsuarios();
             var empresas = await EmpresaService.GetAllEmpresas();
 

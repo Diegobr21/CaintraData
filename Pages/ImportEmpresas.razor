@@ -1,6 +1,12 @@
 ﻿@page "/importdataempresas"
 
- <h3>Importar Empresas</h3>
+
+<h3>Importar Empresas</h3>
+
+@if (loading == true)
+{
+    message = "Cargando los datos ...";
+}
 
 <label>Seleccionar archivo: </label>
 <InputFile OnChange="OnFileUploaded"></InputFile>
@@ -13,5 +19,8 @@
 }
 <br />
 <button disabled="@(FileEntry is null)" @onclick="@UploadFileContentsAsync">Cargar archivo</button>
+<br />
+<h2> @message </h2>
 
 <hr />
+

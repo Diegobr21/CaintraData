@@ -25,6 +25,9 @@ namespace CaintraData.Pages
         private NavigationManager NavigationManager { get; set; }
         private IFileListEntry FileEntry { get; set; }
 
+        private bool loading = false;
+        private string message = "";
+
         public void OnFileUploaded(IFileListEntry[] files)
         {
             FileEntry = files.FirstOrDefault();
@@ -36,18 +39,20 @@ namespace CaintraData.Pages
         /// </summary>
         private async Task UploadFileContentsAsync()
         {
+            loading = true;
 
             var usuarios = await UsersService.GetAllUsuarios();
             var empresas = await EmpresaService.GetAllEmpresas();
 
             using var reader = new StreamReader(FileEntry.Data);
             using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
-
+            
             await csvReader.ReadAsync();
             csvReader.ReadHeader();
+            
             while (await csvReader.ReadAsync())
             {
-
+                
                 var empresaName = csvReader.GetField("Razon Social").ToLower();
                 // make upper case the first letter of the string
                 empresaName = char.ToUpper(empresaName[0]) + empresaName.Substring(1);
@@ -101,7 +106,7 @@ namespace CaintraData.Pages
                 }
 
             }
-
+            loading = false;
             NavigationManager.NavigateTo("/");
         }
 
