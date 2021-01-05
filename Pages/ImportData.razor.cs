@@ -63,7 +63,8 @@ namespace CaintraData.Pages
                         empresa = new Empresa
                         {
                             RazonSocial = empresaName,
-                            LastUpdate = DateAndTime.Now
+                            LastUpdate = DateAndTime.Now,
+                            Origen = FileEntry.Name
 
 
                         };
@@ -99,7 +100,8 @@ namespace CaintraData.Pages
                     LastUpdate_Mail = DateAndTime.Now,
                     LastUpdate_Phone = DateAndTime.Now,
                     EmpresaId = empresaId,
-                    RazonEmpresa = empresaName
+                    RazonEmpresa = empresaName,
+                    Origen = FileEntry.Name
 
 
                 };

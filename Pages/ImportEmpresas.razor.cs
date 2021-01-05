@@ -79,7 +79,8 @@ namespace CaintraData.Pages
                         NumSocio = numsocio,
                         Empresa_Size = size,
                         MembresiaVigente = membresia,
-                        LastUpdate = DateAndTime.Now
+                        LastUpdate = DateAndTime.Now,
+                        Origen = FileEntry.Name
                     };
                     // add it
                     await EmpresaService.InsertEmpresa(empresa);
