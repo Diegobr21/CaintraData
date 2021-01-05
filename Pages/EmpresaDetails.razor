@@ -67,6 +67,7 @@
 
     protected async Task SaveEmpresa()
     {
+        empresa.LastUpdate = DateTime.Now;
         await EmpresaService.SaveEmpresa(empresa);
         NavigationManager.NavigateTo("/empresas");
     }
