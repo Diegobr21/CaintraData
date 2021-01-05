@@ -89,24 +89,42 @@ namespace CaintraData.Pages
                 var telefono = csvReader.GetField("Telefono");
                 var correo = csvReader.GetField("Correo");
 
-                
-                
 
-                var usuario = new Usuario
+                var user = usuarios.FirstOrDefault(c => c.Correo == correo);
+                if(user is null)
                 {
-                    Nombre = nombre,
-                    Municipio_Estado = mun_estado,
-                    Telefono = telefono,
-                    Correo = correo,
-                    LastUpdate_Mail = DateAndTime.Now,
-                    LastUpdate_Phone = DateAndTime.Now,
-                    EmpresaId = empresaId,
-                    RazonEmpresa = empresaName,
-                    Origen = FileEntry.Name
+                    var usuario = new Usuario
+                    {
+                        Nombre = nombre,
+                        Municipio_Estado = mun_estado,
+                        Telefono = telefono,
+                        Correo = correo,
+                        LastUpdate_Mail = DateAndTime.Now,
+                        LastUpdate_Phone = DateAndTime.Now,
+                        EmpresaId = empresaId,
+                        RazonEmpresa = empresaName,
+                        Origen = FileEntry.Name
 
 
-                };
-                await UsersService.InsertUsuario(usuario);
+                    };
+                    await UsersService.InsertUsuario(usuario);
+                }
+                else
+                {
+                    user.Nombre = nombre;
+                    user.Municipio_Estado = mun_estado;
+                    if(telefono != "")
+                    {
+                        user.Telefono = telefono;
+                        user.LastUpdate_Phone = DateAndTime.Now;
+                    }
+                    user.EmpresaId = empresaId;
+                    user.RazonEmpresa = empresaName;
+
+
+                }
+
+                
             }
 
             NavigationManager.NavigateTo("/");
