@@ -28,6 +28,7 @@ else
             <RadzenGridColumn TItem="Empresa" Property="NumSocio" Title="Núm. Socio"></RadzenGridColumn>
             <RadzenGridColumn TItem="Empresa" Property="Empresa_Size" Title="Tamaño"></RadzenGridColumn>
             <RadzenGridColumn TItem="Empresa" Property="MembresiaVigente" Title="Membresía Vigente"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Empresa" Property="Origen" Title="Origen"></RadzenGridColumn>
             <RadzenGridColumn TItem="Empresa" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
                 <Template Context="empresa">
                     <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(empresa))">

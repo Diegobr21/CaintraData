@@ -31,6 +31,7 @@ else
             <RadzenGridColumn TItem="Usuario" Property="Facebook" Title="Facebook"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="Twitter" Title="Twitter"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="Instagram" Title="Instagram"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Origen" Title="Origen"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
                 <Template Context="usuario">
                     <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(usuario))">
