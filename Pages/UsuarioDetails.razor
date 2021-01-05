@@ -1,6 +1,7 @@
 ﻿@page "/usuariodetails"
 @page "/usuariodetails/{id:int}"
 @inject IUsersService UsersService
+@inject IEmpresaService EmpresaService
 @inject NavigationManager NavigationManager
 
 <h3>Usuarios</h3>
@@ -22,6 +23,10 @@
         <tr>
             <td>Correo: </td>
             <td><input class="form-control col-sm-4" type="text" @bind="user.Correo" /></td>
+        </tr>
+        <tr>
+            <td>Empresa (Razón Social): </td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.RazonEmpresa" /></td>
         </tr>
         <tr>
             <td>Whatsapp: </td>
@@ -57,11 +62,15 @@
     [Parameter]
     public int id { get; set; }
 
+
+
+
+
     private Usuario user = new Usuario();
 
     protected override async Task OnInitializedAsync()
     {
-        if(id != 0)
+        if (id != 0)
         {
             user = await UsersService.GetUsuarioDetails(id);
 
@@ -71,6 +80,39 @@
 
     protected async Task SaveUsuario()
     {
+        user.LastUpdate_Mail = DateTime.Now;
+        user.LastUpdate_Phone = DateTime.Now;
+
+        //Look for the company
+        var empresas = await EmpresaService.GetAllEmpresas();
+
+        int empresaId = 0;
+
+        var empresa = empresas.FirstOrDefault(c => c.RazonSocial == user.RazonEmpresa);
+        // if the company is not in the database
+
+        if (empresa is null)
+        {
+            empresa = new Empresa
+            {
+                RazonSocial = user.RazonEmpresa,
+                LastUpdate = DateTime.Now
+
+
+            };
+            // add it
+            await EmpresaService.InsertEmpresa(empresa);
+            empresaId = empresa.Id;
+
+
+
+        }
+        else
+        {
+            empresaId = empresa.Id;
+        }
+
+        user.EmpresaId = empresaId;
         await UsersService.SaveUsuario(user);
         NavigationManager.NavigateTo("/");
     }
