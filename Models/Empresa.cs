@@ -63,5 +63,10 @@ namespace CaintraData.Models
         /// </summary>
         public virtual List<Usuario> Usuarios { get; set; }
 
+        /// <summary>
+        /// Nombre del archivo del cual se importo el usuario.
+        /// </summary>
+        public string Origen { get; set; }
+
     }
 }

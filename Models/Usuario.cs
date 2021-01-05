@@ -77,5 +77,10 @@ namespace CaintraData.Models
         /// </summary>
         public string Twitter { get; set; }
 
+        /// <summary>
+        /// Nombre del archivo del cual se importo el usuario.
+        /// </summary>
+        public string Origen { get; set; }
+
     }
 }
