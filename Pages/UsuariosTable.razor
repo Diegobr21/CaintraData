@@ -26,6 +26,18 @@ else
             <RadzenGridColumn TItem="Usuario" Property="Correo" Title="Correo"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Mail" Title="U.A Correo"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Empresa"></RadzenGridColumn>
+
+            <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Ver Empresa"  Filterable="false" Sortable="false" Width="100px">
+                <Template Context="usuario">
+                    @if (usuario.RazonEmpresa.Length > 1)
+                    {
+                        <RadzenButton Icon="card_travel" Click="@(args => VisitEmpresa(usuario.RazonEmpresa))">
+                        </RadzenButton>
+                    }
+
+                </Template>
+            </RadzenGridColumn>
+
             <RadzenGridColumn TItem="Usuario" Property="Linkedin" Title="Linkedin"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="Whatsapp" Title="Whatsapp"></RadzenGridColumn>
             <RadzenGridColumn TItem="Usuario" Property="Facebook" Title="Facebook"></RadzenGridColumn>
@@ -134,6 +146,12 @@ else
     protected void AddUsuario()
     {
         NavigationManager.NavigateTo("/usuariodetails");
+    }
+
+    protected void VisitEmpresa(string empresaName)
+    {
+        string link = "/empresas/" + empresaName;
+        NavigationManager.NavigateTo(link);
     }
 
 }
