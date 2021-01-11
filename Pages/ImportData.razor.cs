@@ -49,18 +49,22 @@ namespace CaintraData.Pages
             csvReader.ReadHeader();
             while (await csvReader.ReadAsync())
             {
-                
-                var empresaName = csvReader.GetField("Empresa").ToLower();
-                // make upper case the first letter of the string
-                empresaName = char.ToUpper(empresaName[0]) + empresaName.Substring(1);
-
                 int empresaId = 0;
-
-              var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
-                // if the company is not in the database
-                
-                if (empresa is null)
+                var empresaName = csvReader.GetField("Empresa");
+               
+                if(empresaName.Length > 1)
                 {
+                    empresaName.ToLower();
+                    // make upper case the first letter of the string
+                    empresaName = char.ToUpper(empresaName[0]) + empresaName.Substring(1);
+                }
+                   
+
+                    var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
+                    // if the company is not in the database
+
+                    if (empresa is null)
+                    {
                         empresa = new Empresa
                         {
                             RazonSocial = empresaName,
@@ -73,14 +77,16 @@ namespace CaintraData.Pages
                         await EmpresaService.InsertEmpresa(empresa);
                         empresaId = empresa.Id;
 
-  
 
-                }
-                else
-                {
-                    empresaId = empresa.Id;
-                }
+
+                    }
+                    else
+                    {
+                        empresaId = empresa.Id;
+                    }
                 
+                
+
 
 
                 // get category tag (id)
