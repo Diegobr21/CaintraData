@@ -71,24 +71,42 @@ namespace CaintraData.Pages
                 }
                 
                 var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
+                var empresa_nombrecomercial = empresas.FirstOrDefault(c => c.NombreComercial == nombrecom);
                 // if the company is not in the database
                 if (empresa is null)
                 {
-                    empresa = new Empresa
+                    if(empresa_nombrecomercial is null)
                     {
-                        NombreComercial = nombrecom,
-                        RazonSocial = empresaName,
-                        Direccion = direccion,
-                        Municipio_Estado = munestado,
-                        SitioWeb = sitioweb,
-                        NumSocio = numsocio,
-                        Empresa_Size = size,
-                        MembresiaVigente = membresia,
-                        LastUpdate = DateAndTime.Now,
-                        Origen = FileEntry.Name
-                    };
-                    // add it
-                    await EmpresaService.InsertEmpresa(empresa);
+                        empresa = new Empresa
+                        {
+                            NombreComercial = nombrecom,
+                            RazonSocial = empresaName,
+                            Direccion = direccion,
+                            Municipio_Estado = munestado,
+                            SitioWeb = sitioweb,
+                            NumSocio = numsocio,
+                            Empresa_Size = size,
+                            MembresiaVigente = membresia,
+                            LastUpdate = DateAndTime.Now,
+                            Origen = FileEntry.Name
+                        };
+                        // add it
+                        await EmpresaService.InsertEmpresa(empresa);
+                    }
+                    else
+                    {
+                        empresa.RazonSocial = empresaName;
+                        empresa.Direccion = direccion;
+                        empresa.Municipio_Estado = munestado;
+                        empresa.SitioWeb = sitioweb;
+                        empresa.NumSocio = numsocio;
+                        empresa.Empresa_Size = size;
+                        empresa.MembresiaVigente = membresia;
+                        empresa.LastUpdate = DateAndTime.Now;
+
+                        await EmpresaService.UpdateEmpresa(empresa_nombrecomercial);
+                    }
+                    
 
                 }
                 else
