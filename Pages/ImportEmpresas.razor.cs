@@ -95,14 +95,14 @@ namespace CaintraData.Pages
                     }
                     else
                     {
-                        empresa.RazonSocial = empresaName;
-                        empresa.Direccion = direccion;
-                        empresa.Municipio_Estado = munestado;
-                        empresa.SitioWeb = sitioweb;
-                        empresa.NumSocio = numsocio;
-                        empresa.Empresa_Size = size;
-                        empresa.MembresiaVigente = membresia;
-                        empresa.LastUpdate = DateAndTime.Now;
+                        empresa_nombrecomercial.RazonSocial = empresaName;
+                        empresa_nombrecomercial.Direccion = direccion;
+                        empresa_nombrecomercial.Municipio_Estado = munestado;
+                        empresa_nombrecomercial.SitioWeb = sitioweb;
+                        empresa_nombrecomercial.NumSocio = numsocio;
+                        empresa_nombrecomercial.Empresa_Size = size;
+                        empresa_nombrecomercial.MembresiaVigente = membresia;
+                        empresa_nombrecomercial.LastUpdate = DateAndTime.Now;
 
                         await EmpresaService.UpdateEmpresa(empresa_nombrecomercial);
                     }
