@@ -61,13 +61,16 @@ namespace CaintraData.Pages
                    
 
                     var empresa = empresas.FirstOrDefault(c => c.RazonSocial == empresaName);
+                    var comercialEmpresa = empresas.FirstOrDefault(c => c.NombreComercial == empresaName);
+                
                     // if the company is not in the database
 
-                    if (empresa is null)
+                    if (empresa is null && comercialEmpresa is null)
                     {
                         empresa = new Empresa
                         {
                             RazonSocial = empresaName,
+                            NombreComercial = empresaName,
                             LastUpdate = DateAndTime.Now,
                             Origen = FileEntry.Name
 
@@ -94,6 +97,11 @@ namespace CaintraData.Pages
                 var mun_estado = "";
                 var telefono = csvReader.GetField("Telefono");
                 var correo = csvReader.GetField("Correo");
+                //var whatsapp
+                //var linkedin
+                //var facebook
+                //var twitter
+
 
 
                 var user = usuarios.FirstOrDefault(c => c.Correo == correo);
