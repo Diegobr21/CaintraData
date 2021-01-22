@@ -12,6 +12,7 @@ namespace CaintraData.Data
 
         private readonly UsersContext _context;
         public IEnumerable<Usuario> ActiveUsuarios { get; set; }
+        public IEnumerable<Usuario> NonActiveUsuarios { get; set; }
         public UsersService(UsersContext context)
         {
             _context = context;
@@ -45,6 +46,21 @@ namespace CaintraData.Data
                 }
             }
             return  ActiveUsuarios;
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAllNonActiveUsuarios()
+        {
+            IEnumerable<Usuario> AllUsuarios = await _context.UsuariosTable.ToListAsync();
+
+
+            foreach (Usuario usuario in AllUsuarios)
+            {
+                if (usuario.Activo == false)
+                {
+                    NonActiveUsuarios.Append(usuario);
+                }
+            }
+            return NonActiveUsuarios;
         }
 
         public async Task<Usuario> GetUsuarioDetails(int id)
