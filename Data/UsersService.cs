@@ -44,7 +44,7 @@ namespace CaintraData.Data
                     ActiveUsuarios.Append(usuario);
                 }
             }
-            return await ActiveUsuarios;
+            return  ActiveUsuarios;
         }
 
         public async Task<Usuario> GetUsuarioDetails(int id)
