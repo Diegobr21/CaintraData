@@ -1,0 +1,114 @@
+﻿@page "/inactivos"
+@inject IUsersService UsersService
+@inject NavigationManager NavigationManager
+@inject CSVService csvservice
+
+<h1>Usuarios Inactivos</h1>
+
+<p> Aquí tenemos todos los usuarios inactivos</p>
+@Message
+
+
+@if (usuarios == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+
+    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="50"
+                AllowSorting="true" Data="usuarios" TItem="Usuario" ColumnWidth="150px">
+        <Columns>
+            <RadzenGridColumn TItem="Usuario" Property="Nombre" Title="Nombre de Usuario"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Municipio_Estado" Title="Municipio/Estado"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Telefono" Title="Teléfono"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Phone" Title="U.A Teléfono"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Correo" Title="Correo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Mail" Title="U.A Correo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Empresa"></RadzenGridColumn>
+
+            <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Ver Empresa" Filterable="false" Sortable="false" Width="100px">
+                <Template Context="usuario">
+                    @if (usuario.RazonEmpresa.Length > 1)
+                    {
+                        <RadzenButton Icon="card_travel" Click="@(args => VisitEmpresa(usuario.RazonEmpresa))">
+                        </RadzenButton>
+                    }
+
+                </Template>
+            </RadzenGridColumn>
+
+            <RadzenGridColumn TItem="Usuario" Property="Linkedin" Title="Linkedin"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Whatsapp" Title="Whatsapp"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Facebook" Title="Facebook"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Twitter" Title="Twitter"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Instagram" Title="Instagram"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Property="Origen" Title="Origen"></RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="usuario">
+                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(usuario))">
+                    </RadzenButton>
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="Usuario" Title="Borrar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="usuario">
+                    <RadzenButton Icon="delete" Size="ButtonSize.Small" Click="@(args => OnDeleteRow(usuario))">
+                    </RadzenButton>
+                </Template>
+            </RadzenGridColumn>
+
+        </Columns>
+    </RadzenGrid>
+    <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" />
+    <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
+    
+}
+
+@code {
+
+    public IEnumerable<Usuario> usuarios { get; set; }
+    public string Message { get; set; }
+    RadzenGrid<Usuario> grid;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        try
+        {
+            usuarios = await UsersService.GetAllNonActiveUsuarios();
+        }
+        catch (Exception e)
+        {
+            Message = e.Message;
+        }
+
+
+
+    }
+
+    protected void Export(string type)
+    {
+        csvservice.Export2("Usuarios", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
+    }
+
+    protected void OnUpdateRow(Usuario usuario)
+    {
+        int id = usuario.Id;
+        string link = "/usuariodetails/" + id;
+        NavigationManager.NavigateTo(link);
+    }
+    protected void OnDeleteRow(Usuario usuario)
+    {
+        int id = usuario.Id;
+        string link = "/userdelete/" + id;
+        NavigationManager.NavigateTo(link);
+    }
+
+    protected void VisitEmpresa(string empresaName)
+    {
+        string link = "/empresas/" + empresaName;
+        NavigationManager.NavigateTo(link);
+    }
+
+}

@@ -15,96 +15,101 @@
 }
 else
 {
+    
+<p>
     <RadzenButton Text="Agregar Usuario" Icon="account_circle" Click="@(args => AddUsuario())" Style="margin-bottom:20px" />
-    <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="50"
-                AllowSorting="true" Data="usuarios" TItem="Usuario" ColumnWidth="150px">
-        <Columns>
-            <RadzenGridColumn TItem="Usuario" Property="Nombre" Title="Nombre de Usuario"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Municipio_Estado" Title="Municipio/Estado"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Telefono" Title="Teléfono"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Phone" Title="U.A Teléfono"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Correo" Title="Correo"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Mail" Title="U.A Correo"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Empresa"></RadzenGridColumn>
+    <RadzenButton Text="Ver inactivos" Icon="account_circle" Click="@(args => VerInactivos())" Style="margin-bottom:20px" ButtonStyle = "ButtonStyle.Secondary" />
+</p>
 
-            <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Ver Empresa"  Filterable="false" Sortable="false" Width="100px">
-                <Template Context="usuario">
-                    @if (usuario.RazonEmpresa.Length > 1)
-                    {
-                        <RadzenButton Icon="card_travel" Click="@(args => VisitEmpresa(usuario.RazonEmpresa))">
-                        </RadzenButton>
-                    }
+<RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="50"
+            AllowSorting="true" Data="usuarios" TItem="Usuario" ColumnWidth="150px">
+    <Columns>
+        <RadzenGridColumn TItem="Usuario" Property="Nombre" Title="Nombre de Usuario"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Municipio_Estado" Title="Municipio/Estado"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Telefono" Title="Teléfono"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Phone" Title="U.A Teléfono"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Correo" Title="Correo"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="LastUpdate_Mail" Title="U.A Correo"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Empresa"></RadzenGridColumn>
 
-                </Template>
-            </RadzenGridColumn>
-
-            <RadzenGridColumn TItem="Usuario" Property="Linkedin" Title="Linkedin"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Whatsapp" Title="Whatsapp"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Facebook" Title="Facebook"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Twitter" Title="Twitter"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Instagram" Title="Instagram"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Property="Origen" Title="Origen"></RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
-                <Template Context="usuario">
-                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(usuario))">
+        <RadzenGridColumn TItem="Usuario" Property="RazonEmpresa" Title="Ver Empresa" Filterable="false" Sortable="false" Width="100px">
+            <Template Context="usuario">
+                @if (usuario.RazonEmpresa.Length > 1)
+                {
+                    <RadzenButton Icon="card_travel" Click="@(args => VisitEmpresa(usuario.RazonEmpresa))">
                     </RadzenButton>
-                </Template>
-            </RadzenGridColumn>
-            <RadzenGridColumn TItem="Usuario" Title="Borrar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
-                <Template Context="usuario">
-                    <RadzenButton Icon="delete" Size="ButtonSize.Small" Click="@(args => OnDeleteRow(usuario))">
-                    </RadzenButton>
-                </Template>
-            </RadzenGridColumn>
+                }
 
-        </Columns>
-    </RadzenGrid>
-    <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" />
-    <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
-    <!--
-    <table class="table-bordered">
-        <thead>
+            </Template>
+        </RadzenGridColumn>
+
+        <RadzenGridColumn TItem="Usuario" Property="Linkedin" Title="Linkedin"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Whatsapp" Title="Whatsapp"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Facebook" Title="Facebook"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Twitter" Title="Twitter"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Instagram" Title="Instagram"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Property="Origen" Title="Origen"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Title="Editar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+            <Template Context="usuario">
+                <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => OnUpdateRow(usuario))">
+                </RadzenButton>
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Usuario" Title="Borrar" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+            <Template Context="usuario">
+                <RadzenButton Icon="delete" Size="ButtonSize.Small" Click="@(args => OnDeleteRow(usuario))">
+                </RadzenButton>
+            </Template>
+        </RadzenGridColumn>
+
+    </Columns>
+</RadzenGrid>
+<RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" />
+<RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
+<!--
+<table class="table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Municipio/Estado</th>
+            <th>Teléfono</th>
+            <th>U.A Teléfono</th>
+            <th>Correo</th>
+            <th>U.A Correo</th>
+            <th>ID Empresa</th>
+            <th>Linkedin</th>
+            <th>Whatsapp</th>
+            <th>Facebook</th>
+            <th>Twitter</th>
+            <th>Instagram</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usu in usuarios)
+        {
             <tr>
-                <th>Nombre</th>
-                <th>Municipio/Estado</th>
-                <th>Teléfono</th>
-                <th>U.A Teléfono</th>
-                <th>Correo</th>
-                <th>U.A Correo</th>
-                <th>ID Empresa</th>
-                <th>Linkedin</th>
-                <th>Whatsapp</th>
-                <th>Facebook</th>
-                <th>Twitter</th>
-                <th>Instagram</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var usu in usuarios)
-            {
-                <tr>
-                    <td>@usu.Nombre</td>
-                    <td>@usu.Municipio_Estado</td>
-                    <td>@usu.Telefono</td>
-                    <td>@usu.LastUpdate_Phone</td>
-                    <td>@usu.Correo</td>
-                    <td>@usu.LastUpdate_Mail</td>
-                    <td>@usu.Empresa</td>
-                    <td>@usu.Linkedin</td>
-                    <td>@usu.Whatsapp</td>
-                    <td>@usu.Facebook</td>
-                    <td>@usu.Twitter</td>
-                    <td>@usu.Instagram</td>
-                    <td><a href="usuariodetails/@usu.Id"><i>Editar</i></a></td>
-                    <td><a href="userdelete/@usu.Id"><i>Borrar</i></a></td>
+                <td>@usu.Nombre</td>
+                <td>@usu.Municipio_Estado</td>
+                <td>@usu.Telefono</td>
+                <td>@usu.LastUpdate_Phone</td>
+                <td>@usu.Correo</td>
+                <td>@usu.LastUpdate_Mail</td>
+                <td>@usu.Empresa</td>
+                <td>@usu.Linkedin</td>
+                <td>@usu.Whatsapp</td>
+                <td>@usu.Facebook</td>
+                <td>@usu.Twitter</td>
+                <td>@usu.Instagram</td>
+                <td><a href="usuariodetails/@usu.Id"><i>Editar</i></a></td>
+                <td><a href="userdelete/@usu.Id"><i>Borrar</i></a></td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
-    -->
+            </tr>
+        }
+    </tbody>
+</table>
+-->
 }
 
 @code {
@@ -113,16 +118,20 @@ else
     public string Message { get; set; }
     RadzenGrid<Usuario> grid;
 
+
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            usuarios = await UsersService.GetAllActiveUsuarios();
-        }
-        catch (Exception e)
-        {
-            Message = e.Message;
-        }
+        
+            try
+            {
+                usuarios = await UsersService.GetAllActiveUsuarios();
+            }
+            catch (Exception e)
+            {
+                Message = e.Message;
+            }
+      
+
 
     }
 
@@ -146,6 +155,11 @@ else
     protected void AddUsuario()
     {
         NavigationManager.NavigateTo("/usuariodetails");
+    }
+
+    protected void VerInactivos()
+    {
+        NavigationManager.NavigateTo("/inactivos");
     }
 
     protected void VisitEmpresa(string empresaName)
