@@ -105,6 +105,13 @@ namespace CaintraData.Pages
                 var mun_estado = "";
                 var telefono = csvReader.GetField("Telefono");
                 var correo = csvReader.GetField("Correo");
+                var activofield = csvReader.GetField("Activo");
+                bool activo = true;
+                if (activofield.Equals("FALSE"))
+                {
+                    activo = false;
+                }
+
                 //var whatsapp
                 //var linkedin
                 //var facebook
@@ -125,7 +132,8 @@ namespace CaintraData.Pages
                         LastUpdate_Phone = DateAndTime.Now,
                         EmpresaId = empresaId,
                         RazonEmpresa = empresaName,
-                        Origen = FileEntry.Name
+                        Origen = FileEntry.Name,
+                        Activo = activo
 
 
                     };
