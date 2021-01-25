@@ -150,6 +150,8 @@ namespace CaintraData.Pages
                     }
                     user.EmpresaId = empresaId;
                     user.RazonEmpresa = empresaName;
+                    user.Activo = activo;
+                    user.Origen = FileEntry.Name;
 
 
                 }
