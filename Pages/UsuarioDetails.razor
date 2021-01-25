@@ -113,6 +113,8 @@
         }
 
         user.EmpresaId = empresaId;
+        user.Origen = "Plataforma";
+        user.Activo = true;
         await UsersService.SaveUsuario(user);
         NavigationManager.NavigateTo("/");
     }
