@@ -18,11 +18,11 @@
         </tr>
         <tr>
             <td>Teléfono: </td>
-            <td><input class="form-control col-sm-4" type="text" @bind="user.Telefono" /></td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Telefono" @onclick ="(args => UpdateDatePhone())"/></td>
         </tr>
         <tr>
             <td>Correo: </td>
-            <td><input class="form-control col-sm-4" type="text" @bind="user.Correo" /></td>
+            <td><input class="form-control col-sm-4" type="text" @bind="user.Correo" @onclick ="(args => UpdateDateCorreo())"/></td>
         </tr>
         <tr>
             <td>Empresa (Razón Social): </td>
@@ -77,12 +77,18 @@
 
         }
     }
+    protected void UpdateDateCorreo()
+    {
+        user.LastUpdate_Mail = DateTime.Now;
+    }
+
+    protected void UpdateDatePhone()
+    {
+        user.LastUpdate_Phone = DateTime.Now;
+    }
 
     protected async Task SaveUsuario()
     {
-        user.LastUpdate_Mail = DateTime.Now;
-        user.LastUpdate_Phone = DateTime.Now;
-
         //Look for the company
         var empresas = await EmpresaService.GetAllEmpresas();
 
@@ -114,7 +120,11 @@
 
         user.EmpresaId = empresaId;
         user.Origen = "Plataforma";
-        user.Activo = true;
+        if(user.Activo != false)
+        {
+            user.Activo = true;
+        }
+
         await UsersService.SaveUsuario(user);
         NavigationManager.NavigateTo("/");
     }
