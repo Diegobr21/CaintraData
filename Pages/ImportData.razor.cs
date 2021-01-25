@@ -143,7 +143,7 @@ namespace CaintraData.Pages
                 {
                     user.Nombre = nombre;
                     user.Municipio_Estado = mun_estado;
-                    if(telefono != "")
+                    if(telefono != user.Telefono)
                     {
                         user.Telefono = telefono;
                         user.LastUpdate_Phone = DateAndTime.Now;
