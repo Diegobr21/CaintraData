@@ -15,6 +15,7 @@
 }
 else
 {
+    <RadzenButton Text="Ver activos" Icon="account_circle" Click="@(args => VerActivos())" Style="margin-bottom:20px" ButtonStyle="ButtonStyle.Secondary" />
 
     <RadzenGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="50"
                 AllowSorting="true" Data="usuarios" TItem="Usuario" ColumnWidth="150px">
@@ -61,7 +62,7 @@ else
     </RadzenGrid>
     <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" />
     <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
-    
+
 }
 
 @code {
@@ -103,6 +104,11 @@ else
         int id = usuario.Id;
         string link = "/userdelete/" + id;
         NavigationManager.NavigateTo(link);
+    }
+
+    protected void VerActivos()
+    {
+        NavigationManager.NavigateTo("/");
     }
 
     protected void VisitEmpresa(string empresaName)
